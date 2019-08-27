@@ -33,7 +33,7 @@ exports.createUser = (req, res, next) => {
         });
         newUser.save()
             .then(result => {
-                return res.status(200).json(successResponse('User created'))
+                return res.status(201).json(successResponse('User created'))
             })
             .catch(error => {
                 return res.status(500).json(errorResponse(error));
