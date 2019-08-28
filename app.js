@@ -19,7 +19,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 app.use(cors());
-if (process.env.ENVIRONMENT !== 'STAGING' || process.env.ENVIRONMENT !== 'TESTING') {
+if (process.env.ENVIRONMENT === 'PRODUCTION' || process.env.ENVIRONMENT === 'DEVELOPMENT') {
   app.use(logger('dev'));
 }
 app.use(express.json());
@@ -53,7 +53,7 @@ mongoose.connect(MONGODB_URI, {
   if (err) {
     return console.log(err);
   }
-  if (process.env.ENVIRONMENT !== 'STAGING' || process.env.ENVIRONMENT !== 'TESTING') {
+  if (process.env.ENVIRONMENT === 'PRODUCTION' || process.env.ENVIRONMENT === 'DEVELOPMENT') {
     console.log('MongoDB Connected');
   }
 });
