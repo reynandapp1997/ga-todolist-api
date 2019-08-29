@@ -2,6 +2,9 @@ const bcrypjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
+const {
+    sendResetPassword
+} = require('../services/nodemailer');
 
 const {
     successResponse,
@@ -59,11 +62,40 @@ exports.loginUser = async (req, res, next) => {
                 name: user.name,
                 email: user.email
             }, process.env.JWT_SECRET_KEY, {
-                expiresIn: '24h'
             });
             res.setHeader('Authorization', `Bearer ${token}`);
             return res.status(200).json(successResponse('Login Success'));
         }
         return res.status(401).json(errorResponse('Wrong password'));
     })
+};
+
+exports.resetPassword = (req, res, next) => {
+    const email = req.body.email;
+    sendResetPassword(email, res);
+};
+
+exports.changePassword = (req, res, next) => {
+    const token = req.params.token;
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const password = req.body.password;
+        bcrypjs.hash(password, 10, (error, hash) => {
+            if (error) {
+                return res.status(500).json(errorResponse('Failed hashing password'));
+            } else if (hash) {
+                User.findOneAndUpdate({ _id: decoded.id, email: decoded.email }, { $set: { password: hash } }, (err, doc) => {
+                    if (err) {
+                        return res.status(500).json(errorResponse('Failed hashing password'));
+                    } else if (doc) {
+                        return res.status(200).json(successResponse('Success reset password'));
+                    }
+                });
+            }
+        });
+    } catch (error) {
+        return res.status(401).json({
+            message: 'You are not authorized'
+        });
+    }
 };
