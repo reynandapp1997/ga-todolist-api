@@ -16,8 +16,8 @@ const user = mongoose.Schema({
         required: true
     }
 }, {
-    timestamps: true
-});
+        timestamps: true
+    });
 
 user.plugin(uniqueValidator);
 

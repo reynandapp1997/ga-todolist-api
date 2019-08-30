@@ -62,7 +62,7 @@ exports.loginUser = async (req, res, next) => {
                 name: user.name,
                 email: user.email
             }, process.env.JWT_SECRET_KEY, {
-            });
+                });
             res.setHeader('Authorization', `Bearer ${token}`);
             return res.status(200).json(successResponse('Login Success'));
         }

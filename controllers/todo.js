@@ -88,7 +88,7 @@ exports.updateTodo = async (req, res, next) => {
     if (!checkTodo) {
         return res.status(404).json(errorResponse('Todo not found'));
     }
-    const userId= req.user.id;
+    const userId = req.user.id;
     const {
         title,
         description,
@@ -120,8 +120,8 @@ exports.deleteTodo = async (req, res, next) => {
     if (!checkTodo) {
         return res.status(404).json(errorResponse('Todo not found'));
     }
-    const userId= req.user.id;
-    Todo.findByIdAndDelete({ _id: id, userId }, (error ,result) => {
+    const userId = req.user.id;
+    Todo.findByIdAndDelete({ _id: id, userId }, (error, result) => {
         if (error) {
             return res.status(500).json(errorResponse(error));
         } else if (result) {

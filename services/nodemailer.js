@@ -22,8 +22,8 @@ exports.sendResetPassword = async (email, res) => {
         id: userExist._id,
         email: userExist.email
     }, process.env.JWT_SECRET_KEY, {
-        expiresIn: '1h'
-    });
+            expiresIn: '1h'
+        });
     transport.sendMail({
         from: 'group_one@ga.com',
         to: email,
