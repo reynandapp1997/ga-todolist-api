@@ -64,7 +64,11 @@ exports.loginUser = async (req, res, next) => {
             }, process.env.JWT_SECRET_KEY, {
                 });
             res.setHeader('Authorization', `Bearer ${token}`);
-            return res.status(200).json(successResponse('Login Success'));
+            return res.status(200).json({
+                message: 'Login Success',
+                name: user.name,
+                email: user.email
+            });
         }
         return res.status(401).json(errorResponse('Wrong password'));
     })
