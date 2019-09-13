@@ -67,7 +67,8 @@ exports.loginUser = async (req, res, next) => {
             return res.status(200).json({
                 message: 'Login Success',
                 name: user.name,
-                email: user.email
+                email: user.email,
+                token: `Bearer ${token}`
             });
         }
         return res.status(401).json(errorResponse('Wrong password'));
